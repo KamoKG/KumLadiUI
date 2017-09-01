@@ -9,7 +9,12 @@ import {Post} from "./post";
 export class MediatorService {
 
 
-  constructor(private _http: Http) { }
+  constructor(private _http: Http) { 
+      let authtoken = localStorage.getItem('auth_token');
+      let headers = new Headers({'Accept':'application/json'});
+     headers.append('Authorization', 'Bearer ${authToken}');
+    this.options = new RequestOptions({headers: headers});
+  }
 
   createPost(x: Post){
         console.log("CALLED CREATE POST");
@@ -20,21 +25,21 @@ export class MediatorService {
 
     getLevelZeros(x: String){
         console.log("CALLED GET LEVEL ONES");
-        return this._http.get("/getAllPosts/"+x)
+        return this._http.get("/getAllPosts/"+x, this.options)
             .map(data => data.json().data)
             .toPromise();
     }
 
     getChildPosts(x: String){
         console.log("CALLED GET CHILDREN of "+x);
-        return this._http.get("/getChildPosts/"+x)
+        return this._http.get("/getChildPosts/"+x, this.options)
             .map(data => data.json().data)
             .toPromise();
     }
 
     getContent(x: String){
         console.log("CALLED GET CONTENT of "+x);
-        return this._http.get("/getContent/"+x)
+        return this._http.get("/getContent/"+x, this.options)
             .map(data => data.json())
             .toPromise();
     }
