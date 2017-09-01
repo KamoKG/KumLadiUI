@@ -1,8 +1,54 @@
 <div class="panel panel-default" id="recent">
-  <div class="panel-heading">
+  <div class="panel-heading" style="background: #333; color: white ">
     <h3 class="panel-title">Recent Posts <span class="glyphicon glyphicon-pushpin" style="float: right" onclick="$('#x11').toggle()"></span></h3>
   </div>
-  <div class="panel-body" id="x11">
-    Recent posts will appear here ..
+  <div class="panel-body" id="x11" style="font-size: 12px; width: 100%; height: 88%; overflow-y: scroll; resize: both;">
+      <div class="well banana2" *ngFor="let p of rp_Posts" style="font-size: 15px; width:100%; height: 40px; padding: 0px; margin-bottom: 6px" (click)="selectedSibling(p.postID)">
+        {{p.heading}}
+      </div>
+    <div *ngIf="(rp_Posts.length == 0)">
+      No responses to current message
+    </div>
   </div>
 </div>
+<style>
+  .banana2:hover{
+    background: greenyellow;
+    cursor:pointer;
+  }
+  .chip {
+    display: inline-block;
+    float: right;
+    /*padding: 0 25px;*/
+    height: 30px;
+    font-size: 16px;
+    line-height: 50px;
+    border-radius: 25px;
+    background-color: #BBB;
+    padding-left: 20px;
+  }
+
+  .chip div {
+    float: right;
+    /*margin: 0 10px 0 -25px;*/
+    padding-left: 30px;
+    height: 45px;
+    width: 45px;
+    border-radius: 100%;
+    background-color: #000;
+    border: 4px solid #BBB;
+    padding-bottom: 30px;
+    padding-left: 0px;
+  }
+
+  .glyphicon-th:hover{
+    color: lawngreen;
+  }
+
+  .tools:hover{
+    color: white;
+    background-color: black;
+    background: black;
+    cursor:pointer;
+  }
+</style>

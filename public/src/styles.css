@@ -22,6 +22,11 @@ div.loader {
     font-size: 150%;
 }
 
+.panel-heading{
+    background: black;
+    colour: white;
+}
+
 #subs
 {
     position: absolute;

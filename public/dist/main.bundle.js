@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n<app-nav-bar></app-nav-bar>\n<app-side-menu [sm_Posts]=\"sm_Posts\" [postOffice]=\"postOffice\" (selectedMenuItem)=\"setSibs($event)\" (creatingNewThread)=\"create($event)\"></app-side-menu>\n\n<app-recent-posts></app-recent-posts>\n<app-messages (createNewPostEvent)=\"create($event)\" [mess_Post]=\"mess_Post\"></app-messages>\n<app-status-bar></app-status-bar>\n<app-sibling-posts [sp_Posts]=\"sp_Posts\" (sp_selectedItem)=\"setMessage($event)\"></app-sibling-posts>\n<app-subs-list></app-subs-list>\n<app-comments [co_Posts]=\"co_Posts\"></app-comments>\n\n<link rel=\"stylesheet\" href=\"https://unpkg.com/@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css\">\n\n<!--<app-chat></app-chat>-->\n<!--<app-side-menu [user_name ]=\"user_name\" [buzz_siblings ]=\"buzz_siblings\"></app-side-menu>-->\n<!--<app-recent-posts></app-recent-posts>-->\n<!--&lt;!&ndash;<app-message [buzz_message ]=\"buzz_message\"></app-message>&ndash;&gt;-->\n<!--<app-comments [buzz_comments ]=\"buzz_comments\" [user_name ]=\"user_name\"></app-comments>-->\n<!--<app-status-bar></app-status-bar>-->\n<!--<app-sibling-posts [user_name ]=\"user_name\" [buzz_comments ]=\"buzz_comments\" [buzz_siblings ]=\"buzz_siblings\" [buzz_message ]=\"buzz_message\"></app-sibling-posts>-->\n<!--<app-subs-list></app-subs-list>-->\n<button (click)=\"getAllPosts('COS101')\" onclick=\"$('h1, h2, .panel').toggleClass('blue');\">X</button>\n<div ondragover=\"drag_over(event)\" ondrop=\"drop(event)\">\n    <!--<button onclick=\"document.getElementById('div_main').style.display = 'inline'\">Reply</button>-->\n    <div id=\"div_main\" style=\"height:100vh; width:100%; border:3px solid white; top:0px; left:0px; position: absolute; display:none\">\n        <div id=\"\" style=\"height:100vh; width:100%; border:3px solid white; background-color:#000; opacity: 0.4; top:0px; left:0px; position: absolute; display:none\">\n        </div>\n            <div id=\"txt1\" draggable=\"true\" ondragstart=\"drag_start(event)\" style=\"opacity:1.0; height: 300px; color: white\">\n                <div class=\"div_dance_header\" style=\"opacity:1.0\">\n                    <button type=\"button\" class=\"cancel_dance\" style=\"color:black; opacity:1.0\" onclick=\"document.getElementById('div_main').style.display = 'none'\">&times;</button>\n                    <h3>Create Module</h3>\n                </div>\n                <br>\n                <br>\n                <div class=\"form-group\">\n                    <label >Enter Module Name:</label><button type=\"button\" class=\"btn btn-warning\" style=\"float:right\" (click)=\"createNewModule()\" onclick=\"document.getElementById('div_main').style.display = 'none'\">Create Module</button>\n                    <input type=\"text\" class=\"form-control\" style=\"width: 200px\" [(ngModel)]=\"app_module\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"comment\">Module description:</label>\n                    <textarea class=\"form-control\" rows=\"5\" id=\"comment\" [(ngModel)]=\"app_content\"></textarea>\n                </div>\n                <br>\n            </div>\n\n        <div id=\"txt2\" draggable=\"true\" ondragstart=\"drag_start(event)\" style=\"opacity:1.0; height: 600px;\">\n            <div class=\"div_dance_header\" style=\"opacity:1.0\">\n                <button type=\"button\" class=\"cancel_dance\" style=\"color:black; opacity:1.0\" onclick=\"document.getElementById('div_main').style.display = 'none'\">&times;</button>\n                <h3>Reply to Post</h3>\n            </div>\n            <br>\n            <br>\n            <div class=\"panel-body banana\" style=\"width: 100%; height: 200px; background-color: white; overflow-y: scroll\" *ngIf=\"mess_Post\">\n                <h1><b>{{mess_Post.heading}}</b></h1>\n                <p>{{mess_Post.module}} {{mess_Post.content}}</p>\n                <p style=\"float: right\"><i>Posted on {{mess_Post.timestamp}}</i></p>\n                <br><br>\n                <div class=\"chip\">\n\n                    <div></div></div><br>\n            </div>\n            <div class=\"form-group\">\n                <!--<label >Module Name:</label><button type=\"button\" class=\"btn btn-warning\" style=\"float:right\" (click)=\"createRespond()\" onclick=\"document.getElementById('div_main').style.display = 'none'\">Create Response</button>-->\n                <!--<input type=\"text\" *ngIf=\"mess_Post\" class=\"form-control\" style=\"width: 200px\" value=\"{{mess_Post.course_code}}\" disabled>-->\n                <label >Enter Heading:</label><input type=\"text\" class=\"form-control\" style=\"width: 200px\" >\n            </div>\n            <div class=\"form-group\">\n                <label for=\"comment\">Message Content:</label>\n                <textarea class=\"form-control\" rows=\"5\"></textarea>\n            </div>\n            <div class=\"well\" style=\"width: 90%; height: 30px; padding: 0px; margin-top: 5px; background-color: white\">\n                <div *ngFor=\"let t of tags\" style=\" display: inline-flex; float: left; margin-left: 5px; margin-bottom: 10px; width: 80px; height: 30px; background-color: deepskyblue; border-radius: 8px; border: dashed 1px darkslateblue\">\n                    <span style=\"color: white; font-size: 20px\"> # </span><p contenteditable=\"true\">{{t}}</p>\n                </div>\n                <div *ngIf=\"tags.length < 6\" style=\"font-size: 20px; display: inline\" (click)=\"tags.push('newTag')\"><span class=\"glyphicon glyphicon-plus-sign\"></span></div>\n            </div>\n            <br>\n        </div>\n    </div>\n</div>\n\n<style>\n    .div_dance_header{\n        width: 100%;\n        height: 30px;\n        opacity: 1.0;\n        background-color: black;\n        color: white;\n        /*            font-size: 50px;*/\n\n    }\n\n    .cancel_dance{\n        float: right;\n    }\n\n\n\n    .div_dance_message{\n        width: 94%;\n        background-color: white;\n        height: 200px;\n        margin-left: 20px;\n        margin-top: 30px;\n    }\n\n    #txt1, #txt2{\n        width:600px;\n        height: 580px;\n        background-color:#777;\n        position:absolute;\n        border-radius: 20px;\n        border: 3px solid green;\n    }\n\n    #txt1, #txt2 .glyphicon:hover{\n        color: green;\n    }\n</style>\n"
+module.exports = "<div>\n<app-nav-bar></app-nav-bar>\n<app-side-menu [sm_Posts]=\"sm_Posts\" [postOffice]=\"postOffice\" (selectedMenuItem)=\"setSibs($event)\" (loadedFirst)=\"getAllPosts('COS101')\"></app-side-menu>\n\n<app-recent-posts [rp_Posts]=\"rp_Posts\"></app-recent-posts>\n<app-messages (createNewPostEvent)=\"create($event)\" [mess_Post]=\"mess_Post\"></app-messages>\n<app-status-bar></app-status-bar>\n<app-sibling-posts [sp_Posts]=\"sp_Posts\" (sp_selectedItem)=\"setMessage($event)\"></app-sibling-posts>\n<app-subs-list></app-subs-list>\n<app-comments [co_Posts]=\"co_Posts\" (sp_selectedItem)=\"setMessage2($event)\"></app-comments>\n\n<link rel=\"stylesheet\" href=\"https://unpkg.com/@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css\">\n\n<!--<button (click)=\"getAllPosts('COS101')\" onclick=\"$('h1, h2, .panel').toggleClass('blue');\">X</button>-->\n<div ondragover=\"drag_over(event)\" ondrop=\"drop(event)\">\n    <!--<button onclick=\"document.getElementById('div_main').style.display = 'inline'\">Reply</button>-->\n    <div id=\"div_main\" style=\"height:100vh; width:100%; border:3px solid white; top:0px; left:0px; position: absolute; display:none\">\n        <div id=\"\" style=\"height:100vh; width:100%; border:3px solid white; background-color:#000; opacity: 0.4; top:0px; left:0px; position: absolute; display:none\">\n        </div>\n            <div id=\"txt1\" draggable=\"true\" ondragstart=\"drag_start(event)\" style=\"opacity:1.0; height: 300px; color: white\">\n                <div class=\"div_dance_header\" style=\"opacity:1.0\">\n                    <button type=\"button\" class=\"cancel_dance\" style=\"color:black; opacity:1.0\" onclick=\"document.getElementById('div_main').style.display = 'none'\">&times;</button>\n                    <h3>Create Module</h3>\n                </div>\n                <br>\n                <br>\n                <div class=\"form-group\">\n                    <label >Course Code:</label><button type=\"button\" class=\"btn btn-warning\" style=\"float:right\" (click)=\"createNewModule()\" onclick=\"document.getElementById('div_main').style.display = 'none'\">Create Module</button>\n                    <input type=\"text\" value=\"{{sm_moduleName}}\" class=\"form-control\" style=\"width: 200px\" [(ngModel)]=\"sm_moduleName\">\n                    <input type=\"text\" value=\"{{sm_moduleName}}\" class=\"form-control\" style=\"width: 200px\" [(ngModel)]=\"sm_moduleName\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"comment\">Module description:</label>\n                    <textarea class=\"form-control\" rows=\"5\" id=\"comment\" [(ngModel)]=\"app_content\"></textarea>\n                </div>\n                <br>\n            </div>\n\n        <div id=\"txt2\" draggable=\"true\" ondragstart=\"drag_start(event)\" style=\"opacity:1.0; height: 600px;\">\n            <div class=\"div_dance_header\" style=\"opacity:1.0\">\n                <button type=\"button\" class=\"cancel_dance\" style=\"color:black; opacity:1.0\" onclick=\"document.getElementById('div_main').style.display = 'none'\">&times;</button>\n                <h3>Reply to Post</h3>\n            </div>\n            <br>\n            <br>\n            <div class=\"panel-body banana\" style=\"width: 100%; height: 200px; background-color: white; overflow-y: scroll\" *ngIf=\"mess_Post\">\n                <h1><b>{{mess_Post.heading}}</b></h1>\n                <p>{{mess_Post.module}} {{mess_Post.content}}</p>\n                <p style=\"float: right\"><i>Posted on {{mess_Post.timestamp}}</i></p>\n                <br><br>\n                <div class=\"chip\">\n\n                    <div></div></div><br>\n            </div>\n            <div class=\"form-group\">\n                <label >Module Name:</label><button type=\"button\" class=\"btn btn-warning\" style=\"float:right\" (click)=\"createRespond()\" onclick=\"document.getElementById('div_main').style.display = 'none'\">Create Response</button>\n                <input type=\"text\" *ngIf=\"mess_Post\" class=\"form-control\" style=\"width: 200px\" value=\"{{sm_moduleName}}\" disabled>\n                <label >Enter Heading:</label><input type=\"text\" class=\"form-control\" style=\"width: 200px\" >\n            </div>\n            <div class=\"form-group\">\n                <label for=\"comment\">Message Content:</label>\n                <textarea class=\"form-control\" rows=\"5\" value=\"{{newContent}}\" [(ngModel)]=\"newContent\"></textarea>\n            </div>\n            <div class=\"well\" style=\"width: 90%; height: 30px; padding: 0px; margin-top: 5px; background-color: white\">\n                <div *ngFor=\"let t of tags\" style=\" display: inline-flex; float: left; margin-left: 5px; margin-bottom: 10px; width: 80px; height: 30px; background-color: deepskyblue; border-radius: 8px; border: dashed 1px darkslateblue\">\n                    <span style=\"color: white; font-size: 20px\"> # </span><p contenteditable=\"true\">{{t}}</p>\n                </div>\n                <div *ngIf=\"tags.length < 6\" style=\"font-size: 20px; display: inline\" (click)=\"tags.push('newTag')\"><span class=\"glyphicon glyphicon-plus-sign\"></span></div>\n            </div>\n            <br>\n        </div>\n    </div>\n</div>\n\n<style>\n    .div_dance_header{\n        width: 100%;\n        height: 30px;\n        opacity: 1.0;\n        background-color: black;\n        color: white;\n        /*            font-size: 50px;*/\n\n    }\n\n    .cancel_dance{\n        float: right;\n    }\n\n\n\n    .div_dance_message{\n        width: 94%;\n        background-color: white;\n        height: 200px;\n        margin-left: 20px;\n        margin-top: 30px;\n    }\n\n    #txt1, #txt2{\n        width:600px;\n        height: 580px;\n        background-color:#777;\n        position:absolute;\n        border-radius: 20px;\n        border: 3px solid green;\n    }\n\n    #txt1, #txt2 .glyphicon:hover{\n        color: green;\n    }\n</style>\n"
 
 /***/ }),
 
@@ -64,8 +64,9 @@ var AppComponent = (function () {
     function AppComponent(_mediatorService) {
         this._mediatorService = _mediatorService;
         this.title = 'Buzz';
-        this.user_studentNum = 'U12345678';
-        this.postCentral = [];
+        this.user_studentNum = 'uXXXXXX';
+        this.sm_moduleName = 'COS101';
+        //Remember COS101 is not integrated yet to other components
         this.app_module = '';
         this.app_content = '';
         this.user_bounty = 321;
@@ -73,6 +74,7 @@ var AppComponent = (function () {
         this.postOffice = new __WEBPACK_IMPORTED_MODULE_3__super_post__["a" /* SuperPost */]([], [], this._mediatorService);
         this.sm_Posts = [];
         this.sp_Posts = [];
+        this.rp_Posts = [];
         this.ladderPosts = [];
         this.mess_Post = null;
         this.co_Posts = [];
@@ -80,6 +82,7 @@ var AppComponent = (function () {
         this.buzz_siblings = [];
         this.dummy = [];
         this.tags = [];
+        this.newContent = '';
     }
     AppComponent.prototype.createNewModule = function () {
         var date = new Date();
@@ -114,6 +117,7 @@ var AppComponent = (function () {
             .catch(function (err) { return console.log(err); });
         // this.postOffice.populate(this.sm_Posts, 0);
         this.populatePostOffice(this.postOffice, this.sm_Posts, 0);
+        this.setRecentPosts(x);
     };
     AppComponent.prototype.populatePostOffice = function (x, x_list, v) {
         if (v < 2) {
@@ -163,6 +167,7 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.setMessage = function (choosenId) {
         var _this = this;
+        this.idForMe = choosenId;
         this._mediatorService.getContent(choosenId)
             .then(function (mess_Post) { return _this.mess_Post = mess_Post; })
             .catch(function (err) { return console.log(err); });
@@ -170,18 +175,35 @@ var AppComponent = (function () {
             .then(function (co_Posts) { return _this.co_Posts = co_Posts; })
             .catch(function (err) { return console.log(err); });
     };
+    AppComponent.prototype.setMessage2 = function (choosenId) {
+        var _this = this;
+        this._mediatorService.getContent(choosenId)
+            .then(function (mess_Post) { return _this.mess_Post = mess_Post; })
+            .catch(function (err) { return console.log(err); });
+        this.setResponses(choosenId);
+    };
+    AppComponent.prototype.setResponses = function (choosenId) {
+        var _this = this;
+        this._mediatorService.getChildPosts(choosenId)
+            .then(function (co_Posts) { return _this.co_Posts = co_Posts; })
+            .catch(function (err) { return console.log(err); });
+    };
+    AppComponent.prototype.setRecentPosts = function (moduCode) {
+        var _this = this;
+        this._mediatorService.getRecentPosts(moduCode)
+            .then(function (rp_Posts) { return _this.rp_Posts = rp_Posts; })
+            .catch(function (err) { return console.log(err); });
+    };
     AppComponent.prototype.createRespond = function () {
-        // var date = new Date();
-        // console.log("Here++++++++++++++++++++++++++++++++++++++++++++++++");
-        // console.log("Here is the respnseID: "+this.mess_Post[0].heading+ " lvl: "+this.mess_Post[0].level_number+ "parId: "+this.idForMe);
-        // this.newPost = new Post(this.app_module ,this.level.valueOf()+1, [], this.tags ,this.idForMe, this.app_content, this.app_module, "15110045",
-        //     new Date(Date.now()) , true);
-        // this.create(this.newPost);
-        //
-        // // this.setMess(this.idForMe);
-        // this.tags = [];
-        //
-        // this.co_Posts.push(this.newPost);
+        var _this = this;
+        var date = new Date();
+        console.log(this.mess_Post);
+        console.log("New Post Content \nheading: " + this.mess_Post.heading + "\nlvl: " + this.mess_Post.level_number + "\nparId: " + this.idForMe);
+        console.log("New Post Content \ncontent: " + this.newContent);
+        this.newPost = new __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */](this.mess_Post.heading, 0, [], this.tags, this.idForMe, this.newContent, this.sm_moduleName, 'uXXXXXXXX', null, true, '');
+        this._mediatorService.createResponce(this.idForMe, this.newPost)
+            .then(function (status) { _this.setResponses(_this.idForMe); })
+            .catch(function (err) { return console.log(err); });
     };
     return AppComponent;
 }());
@@ -396,7 +418,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/comments/comments.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"panel panel-default\" id=\"comments\">\n  <div class=\"panel-heading\">\n    <h3 class=\"panel-title\">Responses</h3>\n  </div>\n  <div class=\"panel-body\" id=\"x13\" style=\"width: 100%; height: 90%; overflow-y: scroll\" >\n    <div *ngFor=\"let message of co_Posts\" style=\"width:100%; height: 70px; padding: 0px; margin-bottom: 3px\" class=\"banana well\">\n        <p style=\"float: right\"><i>Posted on:</i></p>\n        <p ><span style=\"font-size: 20px; margin-left: 10px; margin-top: 5px\">{{message.heading}}</span></p>\n        <div class=\"chip\" >\n\n            <div></div></div><br>\n\n    <br><br>\n\n    <!--<div style=\"background-color: #985f0d\"><button disabled class=\"btn btn-success\"><b>{{post.tags}}</b></button></div>-->\n    </div>\n    </div>\n</div>\n\n<style>\n    .banana:hover{\n        background: greenyellow;\n        cursor:pointer;\n    }\n    .chip {\n        display: inline-block;\n        float: right;\n        /*padding: 0 25px;*/\n        height: 30px;\n        font-size: 16px;\n        line-height: 50px;\n        border-radius: 25px;\n        background-color: #BBB;\n        padding-left: 20px;\n    }\n\n    .chip div {\n        float: right;\n        /*margin: 0 10px 0 -25px;*/\n        padding-left: 30px;\n        height: 45px;\n        width: 45px;\n        border-radius: 100%;\n        background-color: #000;\n        border: 4px solid #BBB;\n        padding-bottom: 30px;\n        padding-left: 0px;\n    }\n</style>"
+module.exports = "<div class=\"panel panel-default\" id=\"comments\" >\n  <div class=\"panel-heading\" style=\"background: #333; color: white \">\n    <h3 class=\"panel-title\">Responses</h3>\n  </div>\n  <div class=\"panel-body\" id=\"x13\" style=\"width: 100%; height: 90%; overflow-y: scroll\" >\n    <div *ngFor=\"let message of co_Posts\" style=\"width:100%; height: 70px; padding: 0px; margin-bottom: 8px\" class=\"banana well\" (click)=\"selectedSibling(message.postID)\">\n        <p style=\"float: right\"><i>Posted on:</i></p>\n        <p ><span style=\"font-size: 20px; margin-left: 10px; margin-top: 5px\">{{message.heading}}</span></p>\n        <div class=\"chip\" >\n\n            <div></div></div><br>\n\n    <br><br>\n\n    <!--<div style=\"background-color: #985f0d\"><button disabled class=\"btn btn-success\"><b>{{post.tags}}</b></button></div>-->\n    </div>\n      <div *ngIf=\"(co_Posts.length == 0)\">No responses to current message</div>\n    </div>\n</div>\n\n<style>\n    .banana:hover{\n        background: greenyellow;\n        cursor:pointer;\n    }\n    .chip {\n        display: inline-block;\n        float: right;\n        /*padding: 0 25px;*/\n        height: 30px;\n        font-size: 16px;\n        line-height: 50px;\n        border-radius: 25px;\n        background-color: #BBB;\n        padding-left: 20px;\n    }\n\n    .chip div {\n        float: right;\n        /*margin: 0 10px 0 -25px;*/\n        padding-left: 30px;\n        height: 45px;\n        width: 45px;\n        border-radius: 100%;\n        background-color: #000;\n        border: 4px solid #BBB;\n        padding-bottom: 30px;\n        padding-left: 0px;\n    }\n</style>"
 
 /***/ }),
 
@@ -422,9 +444,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var CommentsComponent = (function () {
     function CommentsComponent(_mediatorService) {
         this._mediatorService = _mediatorService;
+        this.sp_selectedItem = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
     CommentsComponent.prototype.ngOnInit = function () {
         // this.getPosts();
+    };
+    CommentsComponent.prototype.selectedSibling = function (postToDelete) {
+        this.sp_selectedItem.emit(postToDelete);
     };
     return CommentsComponent;
 }());
@@ -440,6 +466,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
     __metadata("design:type", Object)
 ], CommentsComponent.prototype, "co_Posts", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* Output */])(),
+    __metadata("design:type", Object)
+], CommentsComponent.prototype, "sp_selectedItem", void 0);
 CommentsComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
         selector: 'app-comments',
@@ -564,13 +594,13 @@ var MediatorService = (function () {
     function MediatorService(_http) {
         this._http = _http;
     }
-    MediatorService.prototype.createPost = function (x) {
-        console.log("CALLED CREATE POST");
+    MediatorService.prototype.createResponce = function (x, p) {
+        console.log("CALLED CREATE RESPONCE-POST");
         var authtoken = localStorage.getItem('auth_token');
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Accept': 'application/json' });
         headers.append('Authorization', 'Bearer ${authToken}');
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
-        return this._http.get("/xxxx", options)
+        return this._http.post("/addPost/" + x, p)
             .map(function (data) { return data.json(); })
             .toPromise();
     };
@@ -594,6 +624,16 @@ var MediatorService = (function () {
             .map(function (data) { return data.json().data; })
             .toPromise();
     };
+    MediatorService.prototype.getRecentPosts = function (x) {
+        console.log("CALLED GET CHILDREN of " + x);
+        var authtoken = localStorage.getItem('auth_token');
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Accept': 'application/json' });
+        headers.append('Authorization', 'Bearer ${authToken}');
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this._http.get("/getRecentPosts/" + x)
+            .map(function (data) { return data.json().data; })
+            .toPromise();
+    };
     MediatorService.prototype.getContent = function (x) {
         console.log("CALLED GET CONTENT of " + x);
         var authtoken = localStorage.getItem('auth_token');
@@ -603,6 +643,15 @@ var MediatorService = (function () {
         return this._http.get("/getContent/" + x, options)
             .map(function (data) { return data.json(); })
             .toPromise();
+    };
+    MediatorService.prototype.getPosts = function () {
+        // let authToken = localStorage.getItem('auth_token');
+        // let headers = new Headers({"Accept":"application/json"});
+        // headers.append('Authorization','Bearer ${authToken}');
+        // let options = new RequestOptions({headers:headers});
+        // return this._http.get("http://localhost:1337/posts")
+        //     .map(data => data.json())
+        //     .toPromise();
     };
     return MediatorService;
 }());
@@ -637,7 +686,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/messages/messages.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"panel panel-default\" id=\"message\">\n  <div class=\"panel-heading\">\n    <h3 class=\"panel-title\"> Messages <span class=\"glyphicon glyphicon-pushpin\" style=\"float: right\" onclick=\"$('#x13').toggle()\"></span></h3>\n\n  </div>\n  <div class=\"panel-body banana\" id=\"x13\" style=\"width: 100%; height: 90%; overflow-y: scroll\" *ngIf=\"mess_Post\">\n    <h1><b>{{mess_Post.heading}}</b></h1><br>\n    <p >{{mess_Post.module}} {{mess_Post.content}}</p>\n    <p style=\"float: right\"><i>Posted on {{mess_Post.timestamp}}</i></p>\n    <br><br>\n    <div class=\"chip\">\n\n      <div></div></div><br><br>\n  </div>\n  <div style=\"height: 28px; width: 100%; background-color: white; position: absolute; padding-left: 0px; left: 0px; bottom: 0px; font-size: 20px; color: black\">\n    <span class=\"glyphicon glyphicon-comment\" style=\"padding-left: 50%\" onclick=\"document.getElementById('div_main').style.display = 'inline';document.getElementById('txt1').style.display = 'none'; document.getElementById('txt2').style.display = 'inline'; document.getElementById('x2222').innerHTML = document.getElementsByClassName('banana')[0].innerHTML\">\n\n    </span>\n  </div>\n</div>\n\n<style>\n  .glyphicon-comment:hover{\n    color: deepskyblue;\n  }\n\n\n</style>"
+module.exports = "<div class=\"panel panel-default\" id=\"message\">\n  <div class=\"panel-heading\" style=\"background: #333; color: white \">\n    <h3 class=\"panel-title\"> Messages <span class=\"glyphicon glyphicon-pushpin\" style=\"float: right\" onclick=\"$('#x13').toggle()\"></span></h3>\n\n  </div>\n  <div class=\"panel-body banana\" id=\"x13\" style=\"width: 100%; height: 90%; overflow-y: scroll\" *ngIf=\"mess_Post\">\n    <h1><b>{{mess_Post.heading}}</b></h1><br>\n    <p >{{mess_Post.module}} {{mess_Post.content}}</p>\n    <p style=\"float: right\"><i>Posted on {{mess_Post.timestamp}}</i></p>\n    <br><br>\n    <div class=\"chip\">\n\n      <div></div></div><br><br>\n  </div>\n  <div style=\"height: 28px; width: 100%; background-color: white; position: absolute; padding-left: 0px; left: 0px; bottom: 0px; font-size: 20px; color: black\">\n    <span class=\"glyphicon glyphicon-comment\" style=\"padding-left: 50%\" onclick=\"document.getElementById('div_main').style.display = 'inline';document.getElementById('txt1').style.display = 'none'; document.getElementById('txt2').style.display = 'inline'; \">\n    <!--<span class=\"glyphicon glyphicon-comment\" style=\"padding-left: 50%\" onclick=\"document.getElementById('div_main').style.display = 'inline';document.getElementById('txt1').style.display = 'none'; document.getElementById('txt2').style.display = 'inline'; document.getElementById('x2222').innerHTML = document.getElementsByClassName('banana')[0].innerHTML\">-->\n\n    </span>\n  </div>\n</div>\n\n<style>\n  .glyphicon-comment:hover{\n    color: deepskyblue;\n  }\n\n\n</style>"
 
 /***/ }),
 
@@ -852,7 +901,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/recent-posts/recent-posts.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"panel panel-default\" id=\"recent\">\n  <div class=\"panel-heading\">\n    <h3 class=\"panel-title\">Recent Posts <span class=\"glyphicon glyphicon-pushpin\" style=\"float: right\" onclick=\"$('#x11').toggle()\"></span></h3>\n  </div>\n  <div class=\"panel-body\" id=\"x11\">\n    Recent posts will appear here ..\n  </div>\n</div>"
+module.exports = "<div class=\"panel panel-default\" id=\"recent\">\n  <div class=\"panel-heading\" style=\"background: #333; color: white \">\n    <h3 class=\"panel-title\">Recent Posts <span class=\"glyphicon glyphicon-pushpin\" style=\"float: right\" onclick=\"$('#x11').toggle()\"></span></h3>\n  </div>\n  <div class=\"panel-body\" id=\"x11\" style=\"font-size: 12px; width: 100%; height: 88%; overflow-y: scroll; resize: both;\">\n      <div class=\"well banana2\" *ngFor=\"let p of rp_Posts\" style=\"font-size: 15px; width:100%; height: 40px; padding: 0px; margin-bottom: 6px\" (click)=\"selectedSibling(p.postID)\">\n        {{p.heading}}\n      </div>\n    <div *ngIf=\"(rp_Posts.length == 0)\">\n      No responses to current message\n    </div>\n  </div>\n</div>\n<style>\n  .banana2:hover{\n    background: greenyellow;\n    cursor:pointer;\n  }\n  .chip {\n    display: inline-block;\n    float: right;\n    /*padding: 0 25px;*/\n    height: 30px;\n    font-size: 16px;\n    line-height: 50px;\n    border-radius: 25px;\n    background-color: #BBB;\n    padding-left: 20px;\n  }\n\n  .chip div {\n    float: right;\n    /*margin: 0 10px 0 -25px;*/\n    padding-left: 30px;\n    height: 45px;\n    width: 45px;\n    border-radius: 100%;\n    background-color: #000;\n    border: 4px solid #BBB;\n    padding-bottom: 30px;\n    padding-left: 0px;\n  }\n\n  .glyphicon-th:hover{\n    color: lawngreen;\n  }\n\n  .tools:hover{\n    color: white;\n    background-color: black;\n    background: black;\n    cursor:pointer;\n  }\n</style>"
 
 /***/ }),
 
@@ -880,6 +929,10 @@ var RecentPostsComponent = (function () {
     };
     return RecentPostsComponent;
 }());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+    __metadata("design:type", Object)
+], RecentPostsComponent.prototype, "rp_Posts", void 0);
 RecentPostsComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
         selector: 'app-recent-posts',
@@ -914,7 +967,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/sibling-posts/sibling-posts.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"panel panel-default\" id=\"sibb\">\n  <div class=\"panel-heading\">\n    <div style=\"float: right\">\n      <button onclick=\"$('#div_sp_tools').slideToggle();\" class=\"btn btn-default dropdown-toggle\" type=\"button\" id=\"menu1\" data-toggle=\"dropdown\"><span class=\"glyphicon glyphicon-th \" style=\"float: right\" onclick=\"$('#x12').toggle()\"></span>\n      </button>\n    <div id=\"div_sp_tools\" class=\"wall\" style=\"position: fixed; background-color: #BBB; border: 1px solid grey; border-radius: 5px; display: none; width: 60px; height: 60px; \">\n        <div  class=\"tools\" style=\"height: 30px; width: 30px; border: 1px solid darkgrey; border-radius: 5px; \">\n          <span class=\"glyphicon glyphicon-search\" style=\"font-size: 20px\"></span>\n        </div>\n        <div class=\"tools\" onclick=\"$('#sibb').animate({top: '-190px', opacity: '0.0'}).hide(1000);\" style=\"height: 30px; width: 30px; border: 1px solid darkgrey; border-radius: 5px; \">\n          <span class=\"\tglyphicon glyphicon-resize-small\" style=\"font-size: 20px\"></span>\n        </div>\n    </div>\n    </div>\n    <h3 class=\"panel-title\">Related - Posts</h3>\n\n  </div>\n  <div class=\"panel-body\" style=\"font-size: 12px; height:88%; overflow-y:scroll; color: #333\">\n      <div class=\"well banana2\" *ngFor=\"let p of sp_Posts\" style=\"font-size: 15px; width:100%; height: 40px; padding: 0px; margin-bottom: 4px\" (click)=\"selectedSibling(p.postID)\">{{p.heading}}-<p style=\"float: right; \"><i>{{p.timestamp}}</i></p></div>\n  </div>\n</div>\n\n<style>\n\n  /*.siblingOption:hover{*/\n    /*color: blue;*/\n    /*cursor: pointer;*/\n  /*}*/\n  .banana2:hover{\n    background: greenyellow;\n    cursor:pointer;\n  }\n\n  .glyphicon-th:hover{\n    color: lawngreen;\n  }\n\n  .tools:hover{\n    color: white;\n    background-color: black;\n    background: black;\n    cursor:pointer;\n  }\n</style>"
+module.exports = "<div class=\"panel panel-default\" id=\"sibb\">\n  <div class=\"panel-heading\" style=\"background: #333; color: white \">\n    <div style=\"float: right\">\n      <button onclick=\"$('#div_sp_tools').slideToggle();\" class=\"btn btn-default dropdown-toggle\" type=\"button\" id=\"menu1\" data-toggle=\"dropdown\"><span class=\"glyphicon glyphicon-th \" style=\"float: right\" onclick=\"$('#x12').toggle()\"></span>\n      </button>\n    <div id=\"div_sp_tools\" class=\"wall\" style=\"position: fixed; background-color: #BBB; border: 1px solid grey; border-radius: 5px; display: none; width: 60px; height: 60px; \">\n        <div  class=\"tools\" style=\"height: 30px; width: 30px; border: 1px solid darkgrey; border-radius: 5px; \">\n          <span class=\"glyphicon glyphicon-search\" style=\"font-size: 20px\"></span>\n        </div>\n        <div class=\"tools\" onclick=\"$('#sibb').animate({top: '-190px', opacity: '0.0'}).hide(1000);\" style=\"height: 30px; width: 30px; border: 1px solid darkgrey; border-radius: 5px; \">\n          <span class=\"\tglyphicon glyphicon-resize-small\" style=\"font-size: 20px\"></span>\n        </div>\n    </div>\n    </div>\n    <h3 class=\"panel-title\">Related - Posts</h3>\n\n  </div>\n  <div class=\"panel-body\" style=\"font-size: 12px; height:86%; overflow-y:scroll; color: #333\">\n      <div class=\"well banana2\" *ngFor=\"let p of sp_Posts\" style=\"font-size: 15px; width:100%; height: 40px; padding: 0px; margin-bottom: 6px\" (click)=\"selectedSibling(p.postID)\">{{p.heading}}-<p style=\"float: right; \"><i>{{p.timestamp}}</i></p></div>\n  </div>\n</div>\n\n<style>\n\n  /*.siblingOption:hover{*/\n    /*color: blue;*/\n    /*cursor: pointer;*/\n  /*}*/\n  .banana2:hover{\n    background: greenyellow;\n    cursor:pointer;\n  }\n\n  .glyphicon-th:hover{\n    color: lawngreen;\n  }\n\n  .tools:hover{\n    color: white;\n    background-color: black;\n    background: black;\n    cursor:pointer;\n  }\n</style>"
 
 /***/ }),
 
@@ -1010,7 +1063,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/side-menu/side-menu.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"panel panel-default\" id=\"side\">\n  <div class=\"panel-heading\">\n    <h3 class=\"panel-title\">Menu</h3>\n  </div>\n  <div class=\"panel-body\" style=\"font-size: 12px; width:260px; height:90%; overflow-y:scroll; color: #333\">\n    <div id=\"div_newThread\" style=\"display: none\">\n      Module: <input type=\"text\" value=\"{{sm_moduleName}}\" disabled>\n      P_ID: <input type=\"text\" value=\"{{sm_parentID}}\" disabled><br>\n      Heading :<input type=\"text\" placeholder=\"heading\" [(ngModel)]=\"sm_heading\">\n      Content :<input type=\"text\" placeholder=\"content\" [(ngModel)]=\"sm_content\">\n      <br>\n      <p>{{sm_heading}}</p>\n      <br>\n      <p>{{sm_content}}</p>\n      <br>\n      <button (click)=\"sm_createThread()\" onclick=\"document.getElementById('div_newThread').style.display = 'none' \"> Create Thread</button>\n\n    </div>\n\n\n    <div *ngIf=\"postOffice\">\n    <!--{{postOffice.supers | json}}-->\n    </div>\n    <br>\n    <div *ngIf=\"postOffice.supers\">\n    {{postOffice.supers.supers | json}}\n    </div>\n\n      <div  *ngFor=\"let p1 of sm_Posts\" style=\"padding-left: +0px\"  >\n          <div >\n            <button onclick=\"$(this).parent().children().toggle(); $(this).show()\" type=\"button\" nglButton=\"destructive\" style=\" margin-top: 15px; width: 90%\" (click)=\" selectedItem(p1.postID)\">{{p1.heading}}</button>\n\n            <!--<div  *ngFor=\"let s1 of postOffice.supers\" style=\"display: none\">-->\n              <!--<div  *ngFor=\"let p2 of s1.child_list\" style=\"display: none\">-->\n                    <!--<button style=\"\" type=\"button\" nglButton=\"neutral\" style=\" margin-top: 5px;margin-left: +18px; height: 30px \" (click)=\"selectedItem(p2.postID)\">{{p2.heading}}</button>-->\n              <!--</div>-->\n            <!--</div>-->\n\n          <button nglButton=\"neutral\"  onclick=\"document.getElementById('div_newThread').style.display = 'inline' \" style=\"display: none\" (click)=\"sm_moduleName = p1.course_code; sm_parentID = p1._id\">Create New Thread</button>\n          </div>\n      </div>\n    <!--</div>-->\n    <div>\n      <!--<md-button class=\"md-raised md-primary\">Primary</md-button>-->\n      <!--<mui-button>CLick Me</mui-button>-->\n      <!--<button >Add a new module</button>-->\n      <br>\n      <hr>\n      <button style=\"display: none\" type=\"button\" nglButton=\"success\" onclick=\"document.getElementById('txt2').style.display = 'none'; document.getElementById('div_main').style.display = 'inline'; document.getElementById('txt1').style.display = 'inline';\">Add new module</button>\n    </div>\n  </div>\n</div>\n\n<style>\n  .divNaviItem:hover{\n    color: blue;\n    cursor: pointer;\n  }\n\n  #divNavi{\n    /*background-color: #bbb;*/\n    font-size: 14px;\n  }\n\n  .badge {\n    font-size: 8px;\n    background-color: black;\n  }\n\n  .divModule{\n    background-color: #999;\n    color: #EEE;\n    font-size: 20px;\n    padding-left: 10px;\n  }\n\n  .folder{\n    color: sandybrown;\n  }\n\n  .buttondemoBasicUsage section {\n    background: #f7f7f7;\n    border-radius: 3px;\n    text-align: center;\n    margin: 1em;\n    position: relative !important;\n    padding-bottom: 10px; }\n\n  .buttondemoBasicUsage md-content {\n    margin-right: 7px; }\n\n  .buttondemoBasicUsage section .md-button {\n    margin-top: 16px;\n    margin-bottom: 16px; }\n\n  .buttondemoBasicUsage .label {\n    position: absolute;\n    bottom: 5px;\n    left: 7px;\n    font-size: 14px;\n    opacity: 0.54; }\n</style>\n\n"
+module.exports = "<div class=\"panel panel-default\" id=\"side\">\n  <div class=\"panel-heading\" style=\"background: #333; color: white \">\n    <div class=\"dropdown\" style=\"float: right; display:none\">\n      <button class=\"btn btn-default dropdown-toggle\" style=\"float: right; margin-bottom: 10px\" type=\"button\" data-toggle=\"dropdown\">{{sm_moduleName}}\n        <span class=\"caret\"></span></button>\n      <ul class=\"dropdown-menu\">\n        <li class=\"dropdown-header\">Your Modules</li>\n        <li><a href=\"#\">{{sm_moduleName}}</a></li>\n        <!--<li class=\"divider\"></li>-->\n        <!--<li class=\"dropdown-header\">Dropdown header 2</li>-->\n        <!--<li><a href=\"#\">About Us</a></li>-->\n      </ul>\n    </div>\n    <h3 class=\"panel-title\">Menu</h3>\n  </div>\n  <div class=\"panel-body\" style=\"font-size: 12px; width:260px; height:90%; overflow-y:scroll; color: #333\">\n    <div id=\"div_newThread\" style=\"display: none\">\n      Module: <input type=\"text\" value=\"{{sm_moduleName}}\" disabled>\n      P_ID: <input type=\"text\" value=\"{{sm_parentID}}\" disabled><br>\n      Heading :<input type=\"text\" placeholder=\"heading\" [(ngModel)]=\"sm_heading\">\n      Content :<input type=\"text\" placeholder=\"content\" [(ngModel)]=\"sm_content\">\n      <br>\n      <p>{{sm_heading}}</p>\n      <br>\n      <p>{{sm_content}}</p>\n      <br>\n      <button (click)=\"sm_createThread()\" onclick=\"document.getElementById('div_newThread').style.display = 'none' \"> Create Thread</button>\n\n    </div>\n\n\n    <div *ngIf=\"postOffice\">\n    <!--{{postOffice.supers | json}}-->\n    </div>\n    <br>\n    <div *ngIf=\"postOffice.supers\">\n    {{postOffice.supers.supers | json}}\n    </div>\n\n\n      <div  *ngFor=\"let p1 of sm_Posts\" style=\"padding-left: +0px\"  >\n          <div >\n            <button onclick=\"$(this).parent().children().toggle(); $(this).show()\" type=\"button\" nglButton=\"destructive\" style=\" margin-top: 15px; width: 90%\" (click)=\" selectedItem(p1.postID)\">{{p1.heading}}</button>\n\n            <!--<div  *ngFor=\"let s1 of postOffice.supers\" style=\"display: none\">-->\n              <!--<div  *ngFor=\"let p2 of s1.child_list\" style=\"display: none\">-->\n                    <!--<button style=\"\" type=\"button\" nglButton=\"neutral\" style=\" margin-top: 5px;margin-left: +18px; height: 30px \" (click)=\"selectedItem(p2.postID)\">{{p2.heading}}</button>-->\n              <!--</div>-->\n            <!--</div>-->\n\n          <!--<button nglButton=\"neutral\"  onclick=\"document.getElementById('div_newThread').style.display = 'inline' \" style=\"display: none\" (click)=\"sm_moduleName = p1.course_code; sm_parentID = p1._id\">Create New Thread</button>-->\n          </div>\n      </div>\n    <!--</div>-->\n    <div>\n      <!--<md-button class=\"md-raised md-primary\">Primary</md-button>-->\n      <!--<mui-button>CLick Me</mui-button>-->\n      <!--<button >Add a new module</button>-->\n      <br>\n      <hr>\n      <button type=\"button\" nglButton=\"success\" onclick=\"document.getElementById('txt2').style.display = 'none'; document.getElementById('div_main').style.display = 'inline'; document.getElementById('txt1').style.display = 'inline';\">Create Thread</button>\n    </div>\n  </div>\n</div>\n\n<style>\n  .divNaviItem:hover{\n    color: blue;\n    cursor: pointer;\n  }\n\n  #divNavi{\n    /*background-color: #bbb;*/\n    font-size: 14px;\n  }\n\n  .badge {\n    font-size: 8px;\n    background-color: black;\n  }\n\n  .divModule{\n    background-color: #999;\n    color: #EEE;\n    font-size: 20px;\n    padding-left: 10px;\n  }\n\n  .folder{\n    color: sandybrown;\n  }\n\n  .buttondemoBasicUsage section {\n    background: #f7f7f7;\n    border-radius: 3px;\n    text-align: center;\n    margin: 1em;\n    position: relative !important;\n    padding-bottom: 10px; }\n\n  .buttondemoBasicUsage md-content {\n    margin-right: 7px; }\n\n  .buttondemoBasicUsage section .md-button {\n    margin-top: 16px;\n    margin-bottom: 16px; }\n\n  .buttondemoBasicUsage .label {\n    position: absolute;\n    bottom: 5px;\n    left: 7px;\n    font-size: 14px;\n    opacity: 0.54; }\n</style>\n\n"
 
 /***/ }),
 
@@ -1038,29 +1091,26 @@ var SideMenuComponent = (function () {
     function SideMenuComponent(_mediatorService) {
         this._mediatorService = _mediatorService;
         this.selectedMenuItem = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
-        this.creatingNewThread = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
-        this.sm_moduleName = 'A';
+        this.loadedFirst = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+        this.sm_moduleName = 'COS101';
         this.sm_content = 'A';
         this.sm_heading = 'A';
     }
     SideMenuComponent.prototype.ngOnInit = function () {
+        this.loadedFirst.emit();
         // this.getPosts();
     };
     SideMenuComponent.prototype.sm_createThread = function () {
         console.log("We Here1");
         this.newPost = new __WEBPACK_IMPORTED_MODULE_2__post__["a" /* Post */](this.sm_heading, 1, [], [], this.sm_parentID, this.sm_content, this.sm_moduleName, "15110045", new Date(Date.now()), true);
         console.log(this.sm_heading + "," + this.sm_parentID + this.sm_content + this.sm_content);
-        this.creatingNewThread.emit(this.newPost);
+        //this.creatingNewThread.emit(this.newPost);
         // this._mediatorService.createPost(this.newPost)
         //     .then(status => this.idk())
         //     .catch(err => console.log(err));
     };
     SideMenuComponent.prototype.idk = function () {
     };
-    // wannaMakeA(choosenId: string)
-    // {
-    //
-    // }
     SideMenuComponent.prototype.selectedItem = function (choosenId) {
         this.selectedMenuItem.emit(choosenId);
     };
@@ -1081,7 +1131,7 @@ __decorate([
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* Output */])(),
     __metadata("design:type", Object)
-], SideMenuComponent.prototype, "creatingNewThread", void 0);
+], SideMenuComponent.prototype, "loadedFirst", void 0);
 SideMenuComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
         selector: 'app-side-menu',
@@ -1179,7 +1229,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/subs-list/subs-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"panel panel-default\" id=\"subs\">\n  <div class=\"panel-heading\">\n    <h3 class=\"panel-title\">Subscription List</h3>\n  </div>\n  <div class=\"panel-body\">\n    Panel content\n  </div>\n</div>"
+module.exports = "<div class=\"panel panel-default\" id=\"subs\" >\n  <div class=\"panel-heading\" style=\"background: #333; color: white \">\n    <h3 class=\"panel-title\">Subscription List</h3>\n  </div>\n  <div class=\"panel-body\" >\n    Panel content\n  </div>\n</div>"
 
 /***/ }),
 
