@@ -147,9 +147,9 @@ app.post('/createPost',function(req,res,next){
 * @return A JSON object will be returned. If successful then it will contain the post's ID, otherwise it an error message will be in the object.
 */
 app.patch('/editPost/:postID',function(req,res,next){ //Not working
-	if(req.params.postID && req.body.content)
+	if(req.body.postID && req.body.content)
 	{
-		Posts.find({"_id":req.params.postID},function(err,doc){
+		Posts.find({"_id":req.body.postID},function(err,doc){
 			if(err)
 			{
 				console.log("An error was encountered: ",err);
@@ -333,7 +333,7 @@ app.post('/addPost/:parentID',function(req,res,next){
 	if(!req.params.parentID)
 	{
 		console.log("No parameters found");
-		res.status(200).json({
+		return res.status(200).json({
 			"text":"No parameters found",
 			"status":false,
 			"postID":null,
@@ -344,7 +344,7 @@ app.post('/addPost/:parentID',function(req,res,next){
 		if(err)
 		{
 			console.log("An error was encoutered",err);
-			res.status(200).json({
+			return res.status(200).json({
 				"text":err,
 				"status":true,
 				"postID":null,
@@ -354,7 +354,7 @@ app.post('/addPost/:parentID',function(req,res,next){
 		else if(!post)
 		{
 			console.log("Failed to find the post");
-			res.status(200).json({
+			return res.status(200).json({
 				"text":"Failed to find the post",
 				"status":false,
 				"postID":null,
@@ -381,7 +381,7 @@ app.post('/addPost/:parentID',function(req,res,next){
 				if(err)
 				{
 					console.log("There was an error saving the document",err);
-					res.status(200).json({
+					return res.status(200).json({
 						"text":err,
 						"postID":null,
 						"heading":null,
@@ -391,7 +391,7 @@ app.post('/addPost/:parentID',function(req,res,next){
 				if(!savedDoc)
 				{
 					console.log("Document failed to save");
-					res.status(200).json({
+					return res.status(200).json({
 						"status":false,
 						"postID":null,
 						"heading":null,
@@ -400,12 +400,12 @@ app.post('/addPost/:parentID',function(req,res,next){
 				}
 				else
 				{
-					console.log("Successfully saved document");
+					console.log("Successfully saved document: "+savedDoc);
 					Posts.findById(savedDoc.parent_ID,function(err,newDoc){
 						if(err)
 						{
 							console.log("Encountered an error when trying to find and update the parent post",err);
-							res.status(200).json({
+							return res.status(200).json({
 								"status":false,
 								"postID":null,
 								"heading":null,
@@ -415,7 +415,7 @@ app.post('/addPost/:parentID',function(req,res,next){
 						else if(!newDoc)
 						{
 							console.log("Failed to update the parent post");
-							res.status(200).json({
+							return res.status(200).json({
 								"status":false,
 								"postID":null,
 								"heading":null,
@@ -434,7 +434,7 @@ app.post('/addPost/:parentID',function(req,res,next){
 								if(err)
 								{
 									console.log("Encountered error: "+err);
-									res.status(200).json({
+									return res.status(200).json({
 										"status":false,
 										"postID":null,
 										"heading":null,
@@ -444,7 +444,7 @@ app.post('/addPost/:parentID',function(req,res,next){
 								else
 								{
 									console.log("Successfully appended to parent");
-									res.status(200).json({
+									return res.status(200).json({
 										"status":true,
 										"postID":obj._id,
 										"heading":obj.heading,
@@ -796,6 +796,103 @@ app.get('/getContent/:postID',function(req,res,next){
 	}
 });
 
+app.get('/xxxx', function(req,res,next){
+	array=[];
+	iarray=[];
+	each(object,function(object,next){
+		console.log('\nCreating new post');
+		//console.log(object['PostID']);
+		//array.push(new id())
+		
+		var _data=new Posts({
+			student_number:object['UserID'],
+			child_list:[], 
+			tag_list:[],
+			level_number:parseInt(object['Level']),
+			parent_ID:null,
+			heading:object['Heading'],
+			timestamp:new Date(),
+			content:object['Content'],
+			course_code:'COS101'
+		});
+		
+		console.log('Saving new post');
+		_data.save(function(err,data){
+			console.log('in save');
+			if(err){ 
+				console.log('Encountered error: ',err);
+				rejected.push(1);
+			}
+			if(data)
+			{
+				iarray.push(object['PostID']);
+				array.push(data._id );
+				if(object['ParentPostID']!='0')
+				{
+					var par;
+					for(var i=0;i<iarray.length;i++)
+					{
+						if(object['ParentPostID']==iarray[i])
+							par=array[i];
+					}
+					console.log('Appending to parent post');
+					Posts.findById(par,function(err,papa){
+						if(err) console.log(err);
+						if(papa)
+						{
+							data.parent_ID=papa._id;
+							data.save(function(err,obj){
+								if(err) console.log('Encountered error: '+err);
+								else
+								{
+									console.log('Saved parents ID');
+									console.log(obj);
+								}
+							});
+							papa.child_list.push({
+								postID:data._id,
+								heading:data.heading,
+								level:data.level_number
+							});
+							papa.save(function(err,obj){
+								if(err) console.log(err);
+								else 
+								{
+									console.log('Successfully appended to parent post');
+									//next();
+									console.log(obj);
+								}
+							});
+						}
+					});
+				}
+				else
+					console.log(data);
+				console.log('Done saving post');
+				//next();
+			}
+			else
+			{
+				console.log('Nothing saved');
+				//next();
+			}
+		});
+		next();
+		
+	},function(err){console.log("Done");
+		
+	});
+	var prev;
+	Posts.find().sort('content').exec().each(function(post){
+		var name=post.content;
+		if(name==prev)
+		{
+			post.remove();
+		}
+		prev=name;
+	});
+	res.status(200).send(rejected);
+});
 
 /*app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/public/src/index.html');
