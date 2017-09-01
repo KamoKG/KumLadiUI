@@ -1,0 +1,44 @@
+<div class="panel panel-default" id="sibb">
+  <div class="panel-heading">
+    <div style="float: right">
+      <button onclick="$('#div_sp_tools').slideToggle();" class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"><span class="glyphicon glyphicon-th " style="float: right" onclick="$('#x12').toggle()"></span>
+      </button>
+    <div id="div_sp_tools" class="wall" style="position: fixed; background-color: #BBB; border: 1px solid grey; border-radius: 5px; display: none; width: 60px; height: 60px; ">
+        <div  class="tools" style="height: 30px; width: 30px; border: 1px solid darkgrey; border-radius: 5px; ">
+          <span class="glyphicon glyphicon-search" style="font-size: 20px"></span>
+        </div>
+        <div class="tools" onclick="$('#sibb').animate({top: '-190px', opacity: '0.0'}).hide(1000);" style="height: 30px; width: 30px; border: 1px solid darkgrey; border-radius: 5px; ">
+          <span class="	glyphicon glyphicon-resize-small" style="font-size: 20px"></span>
+        </div>
+    </div>
+    </div>
+    <h3 class="panel-title">Related - Posts</h3>
+
+  </div>
+  <div class="panel-body" style="font-size: 12px; height:88%; overflow-y:scroll; color: #333">
+      <div class="well banana2" *ngFor="let p of sp_Posts" style="font-size: 15px; width:100%; height: 40px; padding: 0px; margin-bottom: 4px" (click)="selectedSibling(p.postID)">{{p.heading}}-<p style="float: right; "><i>{{p.timestamp}}</i></p></div>
+  </div>
+</div>
+
+<style>
+
+  /*.siblingOption:hover{*/
+    /*color: blue;*/
+    /*cursor: pointer;*/
+  /*}*/
+  .banana2:hover{
+    background: greenyellow;
+    cursor:pointer;
+  }
+
+  .glyphicon-th:hover{
+    color: lawngreen;
+  }
+
+  .tools:hover{
+    color: white;
+    background-color: black;
+    background: black;
+    cursor:pointer;
+  }
+</style>

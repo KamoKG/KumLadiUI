@@ -1,0 +1,63 @@
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+
+      </button>
+     <!-- <a class="navbar-brand" href="#">Buzz</a>-->
+      <a href="#" class="btn btn-toolbar btn-lg" id="menuCon">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="glyphicon glyphicon-menu-hamburger"></span>
+        </button>
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Buzz<span class="sr-only">(current)</span></a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bounty <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#"></a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-bullhorn"></span> Bounty Questions</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-ok-sign"></span> Resolved Questions</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-edit"></span> New Bounty Post</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-xbt"></span> Total claimable Bounty: 236</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#" class="lass"><span class="glyphicon glyphicon-piggy-bank"></span> {{user_bounty}}</a></li>
+        <li><a href="#" class="lass"><span class="glyphicon glyphicon-certificate"></span> {{user_points}}</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#"><b>{{user_studentNum}}, {{user_name}}</b></a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-comment"></span> Chats</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-bell"></span> Interactions</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-th-large"></span> My Groups</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> Profile</a></li>
+            <li><a href="#"></a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-flag"></span> Forum Help</a></li>
+            <li onclick="$('button').click(function(){$('h1, h2, .panel').toggleClass('blue');});"><a href="#" ><span class="glyphicon glyphicon-cog" ></span> Settings</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Sign-Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<style>
+
+  .blue{
+      background-color: black;
+  }
+</style>
