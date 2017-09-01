@@ -77,7 +77,7 @@ var cors = require('cors');
 
 const port = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname + '/public/dist'))); // I am not to sure about this line
+app.use(express.static(path.join(__dirname, '/public/dist')));
 
 let bodyParser = require('body-parser');
 //For adding middleware to application
