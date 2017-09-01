@@ -4,7 +4,7 @@
   "description": "Post API for Buzz",
   "main": "index.js",
   "scripts": {
-    "start": "ng serve",
+    "start": "ng build public/",
     "start": "nodemon server.js",
     "test": "mocha test/*/*"
   },
