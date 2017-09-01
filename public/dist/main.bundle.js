@@ -269,7 +269,7 @@ AppModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_14_ng_lightning__["a" /* NglModule */],
         ],
         providers: [
@@ -566,42 +566,49 @@ var MediatorService = (function () {
     }
     MediatorService.prototype.createPost = function (x) {
         console.log("CALLED CREATE POST");
-        return this._http.get("http://localhost:3000/xxxx")
+        var authtoken = localStorage.getItem('auth_token');
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Accept': 'application/json' });
+        headers.append('Authorization', 'Bearer ${authToken}');
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this._http.get("/xxxx", options)
             .map(function (data) { return data.json(); })
             .toPromise();
     };
     MediatorService.prototype.getLevelZeros = function (x) {
         console.log("CALLED GET LEVEL ONES");
-        return this._http.get("http://localhost:3000/getAllPosts/" + x)
+        var authtoken = localStorage.getItem('auth_token');
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Accept': 'application/json' });
+        headers.append('Authorization', 'Bearer ${authToken}');
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this._http.get("/getAllPosts/" + x, options)
             .map(function (data) { return data.json().data; })
             .toPromise();
     };
     MediatorService.prototype.getChildPosts = function (x) {
         console.log("CALLED GET CHILDREN of " + x);
-        return this._http.get("http://localhost:3000/getChildPosts/" + x)
+        var authtoken = localStorage.getItem('auth_token');
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Accept': 'application/json' });
+        headers.append('Authorization', 'Bearer ${authToken}');
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this._http.get("/getChildPosts/" + x, options)
             .map(function (data) { return data.json().data; })
             .toPromise();
     };
     MediatorService.prototype.getContent = function (x) {
         console.log("CALLED GET CONTENT of " + x);
-        return this._http.get("http://localhost:3000/getContent/" + x)
+        var authtoken = localStorage.getItem('auth_token');
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Accept': 'application/json' });
+        headers.append('Authorization', 'Bearer ${authToken}');
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this._http.get("/getContent/" + x, options)
             .map(function (data) { return data.json(); })
             .toPromise();
-    };
-    MediatorService.prototype.getPosts = function () {
-        // let authToken = localStorage.getItem('auth_token');
-        // let headers = new Headers({"Accept":"application/json"});
-        // headers.append('Authorization','Bearer ${authToken}');
-        // let options = new RequestOptions({headers:headers});
-        // return this._http.get("http://localhost:1337/posts")
-        //     .map(data => data.json())
-        //     .toPromise();
     };
     return MediatorService;
 }());
 MediatorService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], MediatorService);
 
 var _a;
