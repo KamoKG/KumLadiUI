@@ -20,21 +20,21 @@ export class MediatorService {
 
     getLevelZeros(x: String){
         console.log("CALLED GET LEVEL ONES");
-        return this._http.get("http://localhost:3000/getAllPosts/"+x)
+        return this._http.get("/getAllPosts/"+x)
             .map(data => data.json().data)
             .toPromise();
     }
 
     getChildPosts(x: String){
         console.log("CALLED GET CHILDREN of "+x);
-        return this._http.get("http://localhost:3000/getChildPosts/"+x)
+        return this._http.get("/getChildPosts/"+x)
             .map(data => data.json().data)
             .toPromise();
     }
 
     getContent(x: String){
         console.log("CALLED GET CONTENT of "+x);
-        return this._http.get("http://localhost:3000/getContent/"+x)
+        return this._http.get("/getContent/"+x)
             .map(data => data.json())
             .toPromise();
     }
@@ -45,7 +45,7 @@ export class MediatorService {
         // headers.append('Authorization','Bearer ${authToken}');
         // let options = new RequestOptions({headers:headers});
 
-        // return this._http.get("http://localhost:1337/posts")
+        // return this._http.get("/posts")
         //     .map(data => data.json())
         //     .toPromise();
     }
