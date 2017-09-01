@@ -10,55 +10,45 @@ mongoose.connect('mongodb://KamoKG:buzzTestPost1234@ds119044.mlab.com:19044/post
 console.log('Initialising model: post');
 var Post_module = new mongoose.Schema({
    heading: {
-     type: String,
-	 required:true
+     type: String
    }, 
 
    level_number: { 
-     type: Number,
-	 required:true  
+     type: Number
    }, 
 
    child_list: {
-   	 type: [],
-	 required:true
+   	 type: []
    }, 
 
    tag_list: {
-     type: [String],
-	 required:true
+     type: [String]
    }, 
 
    parent_ID: { 
      type: mongoose.Schema.Types.Mixed,
-	   ref:'Post_module',
-	 required:true
+	   ref:'Post_module'
    }, 
 // have a default preference
    content: {
-   	 type: String,
-	 required:true
+   	 type: String
    }, 
 
    course_code: {
-     type: String,
-	 required:true
+     type: String
    }, 
 
    student_number: {
-     type: String,
-	 required:true
+     type: String
    }, 
 
    timestamp : {
      type: Date,
-	 default: Date.now,
-	 required:true
+	 default: Date.now
    },
    visibility:{
 	   type:Boolean,
-	   default: true,
-	 required:true
+	   default: true
    }
 });
 
