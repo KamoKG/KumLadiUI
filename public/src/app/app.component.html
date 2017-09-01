@@ -1,25 +1,17 @@
 <div>
 <app-nav-bar></app-nav-bar>
-<app-side-menu [sm_Posts]="sm_Posts" [postOffice]="postOffice" (selectedMenuItem)="setSibs($event)" (creatingNewThread)="create($event)"></app-side-menu>
+<app-side-menu [sm_Posts]="sm_Posts" [postOffice]="postOffice" (selectedMenuItem)="setSibs($event)" (loadedFirst)="getAllPosts('COS101')"></app-side-menu>
 
-<app-recent-posts></app-recent-posts>
+<app-recent-posts [rp_Posts]="rp_Posts"></app-recent-posts>
 <app-messages (createNewPostEvent)="create($event)" [mess_Post]="mess_Post"></app-messages>
 <app-status-bar></app-status-bar>
 <app-sibling-posts [sp_Posts]="sp_Posts" (sp_selectedItem)="setMessage($event)"></app-sibling-posts>
 <app-subs-list></app-subs-list>
-<app-comments [co_Posts]="co_Posts"></app-comments>
+<app-comments [co_Posts]="co_Posts" (sp_selectedItem)="setMessage2($event)"></app-comments>
 
 <link rel="stylesheet" href="https://unpkg.com/@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css">
 
-<!--<app-chat></app-chat>-->
-<!--<app-side-menu [user_name ]="user_name" [buzz_siblings ]="buzz_siblings"></app-side-menu>-->
-<!--<app-recent-posts></app-recent-posts>-->
-<!--&lt;!&ndash;<app-message [buzz_message ]="buzz_message"></app-message>&ndash;&gt;-->
-<!--<app-comments [buzz_comments ]="buzz_comments" [user_name ]="user_name"></app-comments>-->
-<!--<app-status-bar></app-status-bar>-->
-<!--<app-sibling-posts [user_name ]="user_name" [buzz_comments ]="buzz_comments" [buzz_siblings ]="buzz_siblings" [buzz_message ]="buzz_message"></app-sibling-posts>-->
-<!--<app-subs-list></app-subs-list>-->
-<button (click)="getAllPosts('COS101')" onclick="$('h1, h2, .panel').toggleClass('blue');">X</button>
+<!--<button (click)="getAllPosts('COS101')" onclick="$('h1, h2, .panel').toggleClass('blue');">X</button>-->
 <div ondragover="drag_over(event)" ondrop="drop(event)">
     <!--<button onclick="document.getElementById('div_main').style.display = 'inline'">Reply</button>-->
     <div id="div_main" style="height:100vh; width:100%; border:3px solid white; top:0px; left:0px; position: absolute; display:none">
@@ -33,8 +25,9 @@
                 <br>
                 <br>
                 <div class="form-group">
-                    <label >Enter Module Name:</label><button type="button" class="btn btn-warning" style="float:right" (click)="createNewModule()" onclick="document.getElementById('div_main').style.display = 'none'">Create Module</button>
-                    <input type="text" class="form-control" style="width: 200px" [(ngModel)]="app_module">
+                    <label >Course Code:</label><button type="button" class="btn btn-warning" style="float:right" (click)="createNewModule()" onclick="document.getElementById('div_main').style.display = 'none'">Create Module</button>
+                    <input type="text" value="{{sm_moduleName}}" class="form-control" style="width: 200px" [(ngModel)]="sm_moduleName">
+                    <input type="text" value="{{sm_moduleName}}" class="form-control" style="width: 200px" [(ngModel)]="sm_moduleName">
                 </div>
                 <div class="form-group">
                     <label for="comment">Module description:</label>
@@ -60,13 +53,13 @@
                     <div></div></div><br>
             </div>
             <div class="form-group">
-                <!--<label >Module Name:</label><button type="button" class="btn btn-warning" style="float:right" (click)="createRespond()" onclick="document.getElementById('div_main').style.display = 'none'">Create Response</button>-->
-                <!--<input type="text" *ngIf="mess_Post" class="form-control" style="width: 200px" value="{{mess_Post.course_code}}" disabled>-->
+                <label >Module Name:</label><button type="button" class="btn btn-warning" style="float:right" (click)="createRespond()" onclick="document.getElementById('div_main').style.display = 'none'">Create Response</button>
+                <input type="text" *ngIf="mess_Post" class="form-control" style="width: 200px" value="{{sm_moduleName}}" disabled>
                 <label >Enter Heading:</label><input type="text" class="form-control" style="width: 200px" >
             </div>
             <div class="form-group">
                 <label for="comment">Message Content:</label>
-                <textarea class="form-control" rows="5"></textarea>
+                <textarea class="form-control" rows="5" value="{{newContent}}" [(ngModel)]="newContent"></textarea>
             </div>
             <div class="well" style="width: 90%; height: 30px; padding: 0px; margin-top: 5px; background-color: white">
                 <div *ngFor="let t of tags" style=" display: inline-flex; float: left; margin-left: 5px; margin-bottom: 10px; width: 80px; height: 30px; background-color: deepskyblue; border-radius: 8px; border: dashed 1px darkslateblue">

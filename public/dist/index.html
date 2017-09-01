@@ -6,8 +6,77 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
+
+  <script>
+      angular.module('myAPP', [])
+
+          .directive('cozzz', function () {
+              return {
+                  restrict: "E",
+                  replace: true,
+                  scope: {
+                      cozzz: '='
+                  },
+                  template: "<ul><member ng-repeat='member in cozzz' member='member'></member></ul>"
+              }
+          })
+
+          .directive('member', function ($compile) {
+              return {
+                  restrict: "E",
+                  replace: true,
+                  scope: {
+                      member: '='
+                  },
+                  template: "<li style='margin-left: +15px'>{{member.name}}</li>",
+                  link: function (scope, element, attrs) {
+                      if (angular.isArray(scope.member.children)) {
+                          element.append("<cozzz cozzz='member.children'></cozzz>");
+                          $compile(element.contents())(scope)
+                      }
+                  }
+              }
+          })
+
+          .controller('IndexCtrl', function ($scope) {
+              $scope.tasks = [
+                  {
+                      name: 'Europe',
+                      children: [
+                          {
+                              name: 'Italy',
+                              children: [
+                                  {
+                                      name: 'Rome'
+                                  },
+                                  {
+                                      name: 'Milan'
+                                  }
+                              ]
+                          },
+                          {
+                              name: 'Spain'
+                          }
+                      ]
+                  },
+                  {
+                      name: 'South America',
+                      children: [
+                          {
+                              name: 'Brasil'
+                          },
+                          {
+                              name: 'Peru'
+                          }
+                      ]
+                  }
+              ];
+          });
+      </script>
+  <script>
       function drag_start(event)
       {
           var style = window.getComputedStyle(event.target, null);
@@ -41,7 +110,7 @@
   </script>
   <link rel="stylesheet" href="https://unpkg.com/@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css">
   <meta charset="utf-8">
-  <title>Buzz</title>
+  <title>Buzz Community</title>
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -53,6 +122,9 @@
 </head>
 <body>
   <app-root>Loading...</app-root>
+  <div ng-app='myAPP' ng-controller="IndexCtrl" style="position: absolute">
+    <!--<cozzz cozzz='tasks'></cozzz>-->
+  </div>
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->

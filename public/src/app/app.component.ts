@@ -19,9 +19,10 @@ import {SuperPost} from "./super-post";
 export class AppComponent {
     title = 'Buzz';
 
-    user_studentNum = 'U12345678';
+    user_studentNum = 'uXXXXXX';
+    sm_moduleName: string = 'COS101';
+    //Remember COS101 is not integrated yet to other components
 
-    postCentral: Array<Post>  = [];
     app_module: string = '';
     app_content: string = '';
     user_bounty = 321;
@@ -30,6 +31,7 @@ export class AppComponent {
     postOffice: SuperPost = new SuperPost([],[],this._mediatorService);
     sm_Posts: Array<Post>  = [];
     sp_Posts: Array<Post>  = [];
+    rp_Posts: Array<Post>  = [];
     ladderPosts: Array<Array<Post>>  = [];
     mess_Post: Post = null;
     co_Posts: Array<Post> = [];
@@ -39,6 +41,7 @@ export class AppComponent {
     idForMe : string;
     tags: Array<String> = [];
     level: Number;
+    newContent: string = '';
     constructor(private _mediatorService: MediatorService){}
 
     createNewModule(){
@@ -84,6 +87,7 @@ export class AppComponent {
 
         // this.postOffice.populate(this.sm_Posts, 0);
         this.populatePostOffice(this.postOffice,  this.sm_Posts, 0);
+        this.setRecentPosts(x);
     }
 
     populatePostOffice(x: SuperPost,  x_list: Array<Post>, v : number)
@@ -145,6 +149,7 @@ export class AppComponent {
 
     setMessage(choosenId: string)
     {
+        this.idForMe = choosenId;
         this._mediatorService.getContent(choosenId)
             .then(mess_Post => this.mess_Post = mess_Post)
             .catch(err => console.log(err));
@@ -154,19 +159,41 @@ export class AppComponent {
             .catch(err => console.log(err));
     }
 
+    setMessage2(choosenId: string)
+    {
+        this._mediatorService.getContent(choosenId)
+            .then(mess_Post => this.mess_Post = mess_Post)
+            .catch(err => console.log(err));
+
+        this.setResponses(choosenId);
+
+    }
+
+    setResponses(choosenId: string)
+    {
+        this._mediatorService.getChildPosts(choosenId)
+            .then(co_Posts => this.co_Posts = co_Posts)
+            .catch(err => console.log(err));
+    }
+
+
+    setRecentPosts(moduCode: string)
+    {
+        this._mediatorService.getRecentPosts(moduCode)
+            .then(rp_Posts => this.rp_Posts = rp_Posts)
+            .catch(err => console.log(err));
+    }
+
     createRespond()
     {
-        // var date = new Date();
-        // console.log("Here++++++++++++++++++++++++++++++++++++++++++++++++");
-        // console.log("Here is the respnseID: "+this.mess_Post[0].heading+ " lvl: "+this.mess_Post[0].level_number+ "parId: "+this.idForMe);
-        // this.newPost = new Post(this.app_module ,this.level.valueOf()+1, [], this.tags ,this.idForMe, this.app_content, this.app_module, "15110045",
-        //     new Date(Date.now()) , true);
-        // this.create(this.newPost);
-        //
-        // // this.setMess(this.idForMe);
-        // this.tags = [];
-        //
-        // this.co_Posts.push(this.newPost);
+        var date = new Date();
+        console.log(this.mess_Post);
+        console.log("New Post Content \nheading: "+this.mess_Post.heading+ "\nlvl: "+this.mess_Post.level_number+ "\nparId: "+this.idForMe);
+        console.log("New Post Content \ncontent: "+this.newContent );
+        this.newPost = new Post( this.mess_Post.heading, 0, [], this.tags, this.idForMe, this.newContent, this.sm_moduleName, 'uXXXXXXXX', null, true, '');
+        this._mediatorService.createResponce(this.idForMe, this.newPost)
+            .then(status => {this.setResponses(this.idForMe);})
+            .catch(err => console.log(err));
 
     }
 }

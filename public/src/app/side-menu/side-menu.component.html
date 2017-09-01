@@ -1,5 +1,16 @@
 <div class="panel panel-default" id="side">
-  <div class="panel-heading">
+  <div class="panel-heading" style="background: #333; color: white ">
+    <div class="dropdown" style="float: right; display:none">
+      <button class="btn btn-default dropdown-toggle" style="float: right; margin-bottom: 10px" type="button" data-toggle="dropdown">{{sm_moduleName}}
+        <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li class="dropdown-header">Your Modules</li>
+        <li><a href="#">{{sm_moduleName}}</a></li>
+        <!--<li class="divider"></li>-->
+        <!--<li class="dropdown-header">Dropdown header 2</li>-->
+        <!--<li><a href="#">About Us</a></li>-->
+      </ul>
+    </div>
     <h3 class="panel-title">Menu</h3>
   </div>
   <div class="panel-body" style="font-size: 12px; width:260px; height:90%; overflow-y:scroll; color: #333">
@@ -26,6 +37,7 @@
     {{postOffice.supers.supers | json}}
     </div>
 
+
       <div  *ngFor="let p1 of sm_Posts" style="padding-left: +0px"  >
           <div >
             <button onclick="$(this).parent().children().toggle(); $(this).show()" type="button" nglButton="destructive" style=" margin-top: 15px; width: 90%" (click)=" selectedItem(p1.postID)">{{p1.heading}}</button>
@@ -36,7 +48,7 @@
               <!--</div>-->
             <!--</div>-->
 
-          <button nglButton="neutral"  onclick="document.getElementById('div_newThread').style.display = 'inline' " style="display: none" (click)="sm_moduleName = p1.course_code; sm_parentID = p1._id">Create New Thread</button>
+          <!--<button nglButton="neutral"  onclick="document.getElementById('div_newThread').style.display = 'inline' " style="display: none" (click)="sm_moduleName = p1.course_code; sm_parentID = p1._id">Create New Thread</button>-->
           </div>
       </div>
     <!--</div>-->
@@ -46,7 +58,7 @@
       <!--<button >Add a new module</button>-->
       <br>
       <hr>
-      <button style="display: none" type="button" nglButton="success" onclick="document.getElementById('txt2').style.display = 'none'; document.getElementById('div_main').style.display = 'inline'; document.getElementById('txt1').style.display = 'inline';">Add new module</button>
+      <button type="button" nglButton="success" onclick="document.getElementById('txt2').style.display = 'none'; document.getElementById('div_main').style.display = 'inline'; document.getElementById('txt1').style.display = 'inline';">Create Thread</button>
     </div>
   </div>
 </div>

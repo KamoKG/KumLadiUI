@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./recent-posts.component.css']
 })
 export class RecentPostsComponent implements OnInit {
-
+    @Input() rp_Posts;
   constructor() { }
 
   ngOnInit() {

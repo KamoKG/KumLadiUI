@@ -29,7 +29,7 @@ export class SiblingPostsComponent implements OnInit {
     getPosts(){
     }
 
-    selectedSibling(postToDelete: Post)
+    selectedSibling(postToDelete: string)
     {
         this.sp_selectedItem.emit(postToDelete);
 
