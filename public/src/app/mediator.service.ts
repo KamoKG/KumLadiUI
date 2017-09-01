@@ -18,7 +18,7 @@ export class MediatorService {
 
   createPost(x: Post){
         console.log("CALLED CREATE POST");
-        return this._http.get("/xxxx")
+        return this._http.get("/xxxx", this.options)
             .map(data => data.json())
             .toPromise();
     }
