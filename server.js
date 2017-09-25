@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 //mongoose.connect('mongodb://localhost/post-db') //NB - use: post-db
-mongoose.connect('mongodb://KamoKG:buzzTestPost1234@ds119044.mlab.com:19044/post-db')
+mongoose.connect('mongodb://KamoKG:buzzTest1234@ds119044.mlab.com:19044/post-db')
 .then(() => console.log('Connection successful'))
 .catch((err) => console.log(err));
 console.log('Initialising model: post');
