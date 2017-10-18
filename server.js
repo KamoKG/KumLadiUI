@@ -203,8 +203,13 @@ var messageModule=new mongoose.Schema({
     linkToGroup:{
         type:mongoose.Schema.Types.Mixed,
         required:true
-    }
+    },
+	photo:{
+		type:String,
+		required:true
+	}
 });
+
 
 console.log('Initialising model: Subscribed post');
 var sub_Posts = new mongoose.Schema({
