@@ -4076,7 +4076,7 @@ app.get('/getGroupInformation/:groupName', function(req, res, next) {
  * @return A JSON object will be returned. There will be a boolean field to indicate whether or not the operation was successful. A text field will be used to describe what happened in the operation. A field will be added to store the posts ID.
  */
 app.post("/createMessage",function(req,res,next){
-    if(req.body.groupID&&req.body.student_number&&req.body.message)
+    if(req.body.groupID&&req.body.student_number&&req.body.message&&req.body.photo)
     {
         Messages.find({linkToGroup:req.body.groupID},['levels'],{sort:{timestamp:-1}},function(err,arr){
             if(err)
@@ -4094,7 +4094,8 @@ app.post("/createMessage",function(req,res,next){
                     message:req.body.message,
                     creator:req.body.student_number,
                     levels:1,
-                    linkToGroup:req.body.groupID
+                    linkToGroup:req.body.groupID,
+					photo:req.body.photo
                 });
                 console.log("Saving new message");
                 msg.save(function(err,_msg){
@@ -4113,7 +4114,8 @@ app.post("/createMessage",function(req,res,next){
                         return res.status(200).json({
                             status:true,
                             text:"Successfully saved message",
-                            postID:_msg._id
+                            postID:_msg._id,
+				photo:_msg.photo
                         });
                     }
                     else
@@ -4134,7 +4136,8 @@ app.post("/createMessage",function(req,res,next){
                     message:req.body.message,
                     creator:req.body.student_number,
                     levels:(doc.levels+1),
-                    linkToGroup:req.body.groupID
+                    linkToGroup:req.body.groupID,
+					photo:req.body.photo
                 });
                 msg.save(function(err,_msg){
                     if(err)
@@ -4152,7 +4155,8 @@ app.post("/createMessage",function(req,res,next){
                         return res.status(200).json({
                             status:true,
                             text:"Successfully saved message",
-                            postID:_msg._id
+                            postID:_msg._id,
+				photo:_msg.photo
                         });
                     }
                     else
@@ -4178,6 +4182,7 @@ app.post("/createMessage",function(req,res,next){
         });
     }
 });
+
 /**
  * @params req.params.groupID The group's ID.
  * @todo All the messages belonging to the group will be found and sorted out in descending order, according to their timestamp.
