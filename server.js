@@ -276,6 +276,285 @@ var ldapModuleResponse = null;
 //**************************************************8
 //              New additions
 //**************************************************8
+app.get("/courseStats/:courseCode",function(req,res,next){
+	if(req.params.courseCode)
+	{
+		Users.find({modules:req.params.courseCode},function(err,users){
+			if(err)
+			{
+				return res.status(200).json({text:err});
+			}
+			else
+			{
+				async.map(users,function(user,callBack){
+					async.parallel({
+						name:function(callBack){
+							callBack(null,user.name);
+						},
+						surname:function(callBack){
+							callBack(null,user.surname);
+						},
+						userID:function(callBack){
+							callBack(null,user.userID);
+						},
+						upVotes:function(callBack){
+							Votes.find({course_code:req.param.courseCode,userID:user.userID},function(err,votes){
+								if(err)
+								{
+									console.log("Error: "+err);
+									return callBack(err,null);
+								}
+								var count=0;
+								for(var i in votes)
+								{
+									count+=votes[i].upVotes.length;
+								}
+								callBack(null,count);
+							});
+						},
+						downVotes:function(callBack){
+							Votes.find({course_code:req.param.courseCode,userID:user.userID},function(err,votes){
+								if(err)
+								{
+									console.log("Error: "+err);
+									return callBack(err,null);
+								}
+								var count=0;
+								for(var i in votes)
+								{
+									count+=votes[i].downVotes.length;
+								}
+								callBack(null,count);
+							});
+						},
+						posts:function(callBack){
+							Posts.find({student_number:user.userID,course_code:req.params.courseCode},function(err,num){
+								if(err)
+								{
+									console.log("Error: "+err);
+									return callBack(err,null);
+								}
+								
+								callBack(null,(num.length?num.length:0));
+							});
+						},
+						points:function(callBack){
+							csStatusS.findOne({userID:user.userID,courseCode:req.params.courseCode},function(err,cs){
+								if(err)
+								{
+									console.log("Error: "+err);
+									return callBack(err,null);
+								}
+								if(cs)
+								{
+									return callBack(null,cs.current_points);
+								}
+								else
+								{
+									console.log(user.name+" does not exist");
+									return callBack(null,0);
+								}
+							});
+						},
+						status:function(callBack){
+							csStatusS.findOne({userID:user.userID,courseCode:req.params.courseCode},function(err,cs){
+								if(err)
+								{
+									console.log("Error: "+err);
+									return callBack(err,null);
+								}
+								if(cs)
+								{
+									return callBack(null,cs.status);
+								}
+								else
+								{
+									console.log(user.name+" does not exist");
+									return callBack(null,"nobody");
+								}
+							});
+						}
+					},
+					function(err,results){
+						if(err)
+						{
+							console.log("Error: "+err);
+							callBack(err,null);
+						}
+						else
+						{
+							callBack(null,results);
+						}
+					});
+				},
+				function(err,results){
+					if(err)
+					{
+						return res.status(200).json({
+							data:err
+						});
+					}
+					for(var i=0;i < results.length;i++)
+					{
+						if(results[i].status=="lecture"||results[i].status=="lect"||results[i].status=="teachasst")
+						{
+							results.splice(i--,1);
+						}
+					}
+					return res.status(200).json({
+						data:results
+					});
+				});
+			}
+		});
+	}
+	else
+	{
+		return res.status(200).json({
+			data:"missing parameters"
+		});
+	}
+});
+
+
+app.get("/leaderBoard/:courseCode",function(req,res,next){
+	if(req.params.courseCode)
+	{
+		Users.find({modules:req.params.courseCode},function(err,users){
+			if(err)
+			{
+				return res.status(200).json({text:err});
+			}
+			else
+			{
+				async.map(users,function(user,callBack){
+					async.parallel({
+						userID:function(callBack){
+							callBack(null,user.pseodoname);
+						},
+						bounty:function(callBack){
+							csStatusS.findOne({courseCode:req.param.courseCode,userID:user.userID},function(err,votes){
+								if(err)
+								{
+									console.log("Error: "+err);
+									return callBack(err,null);
+								}
+								if(votes)
+								{
+									return callBack(null,votes.current_bounty);
+								}
+								callBack(null,0);
+							});
+						},
+						points:function(callBack){
+							csStatusS.findOne({userID:user.userID,courseCode:req.params.courseCode},function(err,cs){
+								if(err)
+								{
+									console.log("Error: "+err);
+									return callBack(err,null);
+								}
+								if(cs)
+								{
+									return callBack(null,cs.current_points);
+								}
+								else
+								{
+									console.log(user.name+" does not exist");
+									return callBack(null,0);
+								}
+							});
+						},
+						total: function(callBack){
+							csStatusS.findOne({userID:user.userID,courseCode:req.params.courseCode},function(err,cs){
+								if(err)
+								{
+									console.log("Error: "+err);
+									return callBack(err,null);
+								}
+								if(cs)
+								{
+									return callBack(null,(cs.current_points*10)+cs.current_bounty);
+								}
+								else
+								{
+									console.log(user.name+" does not exist");
+									return callBack(null,0);
+								}
+							});
+						},
+						status:function(callBack){
+							csStatusS.findOne({userID:user.userID,courseCode:req.params.courseCode},function(err,cs){
+								if(err)
+								{
+									console.log("Error: "+err);
+									return callBack(err,null);
+								}
+								if(cs)
+								{
+									return callBack(null,cs.status);
+								}
+								else
+								{
+									console.log(user.name+" does not exist");
+									return callBack(null,"nobody");
+								}
+							});
+						}
+					},
+					function(err,results){
+						if(err)
+						{
+							console.log("Error: "+err);
+							callBack(err,null);
+						}
+						else
+						{
+							callBack(null,results);
+						}
+					});
+				},
+				function(err,results){
+					if(err)
+					{
+						return res.status(200).json({
+							text:err
+						});
+					}
+					var tmp;
+					for(var i in results)
+					{
+						for(var j=1;j<(results.length-i);j++)
+						{
+							if(results[j-1].total>results[j].total)
+							{
+								console.log("Swapping");
+								tmp=results[j-1];
+								results[j-1]=results[j];
+								results[j]=tmp;
+							}
+						}
+					}
+					for(var i=0;i< results.length;i++)
+					{
+						if(results[i].status=="lecture"||results[i].status=="lect"||results[i].status=="teachasst")
+						{
+							results.splice(i--,1);
+						}
+					}
+					return res.status(200).json({
+						data:results
+					});
+				});
+			}
+		});
+	}
+	else
+	{
+		return res.status(200).json({
+			data:"missing parameters"
+		});
+	}
+});
 
 /**
  * @param req.params.userID The user's ID.
