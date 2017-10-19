@@ -1,0 +1,176 @@
+<p-dialog header="" [(visible)]="display" modal="modal" width="900" height="600">
+  <div class="btn-group-vertical" style="width: 300px; height: 500px; border: 1px solid #DDD; display: inline-block" onclick="">
+    <a href="#" class="btn btn-info" (click)="getReports(1)">Profile</a>
+    <a href="#" class="btn btn-info" (click)="getReports(5)" (click)="manual_refresh()">Statistics</a>
+    <a href="#" class="btn btn-info" (click)="getReports(2)" class="hideme">Subscriptions</a>
+    <a href="#" class="btn btn-info" (click)="getReports(3)">Gamification</a>
+    <a href="#" class="btn btn-info" (click)="getReports(4)" >Milestones</a>
+    <a href="#" class="btn btn-info" (click)="getReports(6)">LeaderBoards</a>
+  </div>
+  <div class="panel panel-info" style="width: 550px; height: 500px; border: 1px solid black; display: inline-block; position: absolute; right: 10px">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{panel_heading}}</h3>
+    </div>
+    <div class="panel-body" style="overflow-y:scroll; height: 90%">
+
+      <div id="rep_profile" class="stat_frame">
+        <div class="list-group" *ngIf="userObject.length > 0">
+          <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading"> Buzz pseodoname: </h4>
+            <p class="list-group-item-text">{{userObject[0].pseodoname}}</p>
+          </a>
+
+          <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading"> Username: </h4>
+            <p class="list-group-item-text">{{userObject[0].title}} {{userObject[0].initials}} {{userObject[0].surname}}</p>
+          </a>
+          <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">Account type: </h4>
+            <p class="list-group-item-text">{{userObject[0].account_type}}</p>
+          </a>
+          <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">E-mail: </h4>
+            <p class="list-group-item-text">{{userObject[0].email}}</p>
+          </a>
+          <a href="#" class="list-group-item" *ngIf="userObject.length > 0">
+            <h4 class="list-group-item-heading">Registered Modules: </h4>
+            <li *ngFor="let p of userObject[0].modules" class="list-group-item">{{p}}</li>
+          </a>
+          <a href="#" class="list-group-item" *ngIf="userObject.length > 0">
+            <h4 class="list-group-item-heading">Groups Joined: </h4>
+            <li *ngFor="let p of userObject[0].groupsJoinedTo" class="list-group-item">{{p}}</li>
+          </a>
+        </div>
+      </div>
+
+        <div id="rep_gami2" class="stat_frame" style="display:none ">
+          <!--repo_stats:{{repo_stats|json}}-->
+          <!--userRank:{{userRank|json}}-->
+          <div *ngIf="repo_stats && userRank">
+          <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">Current Rank: </h4>
+            <p class="list-group-item-text">{{userRank.desc}}</p>
+          </a>
+          <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">Points: </h4>
+            <p class="list-group-item-text">{{repo_stats.points}}</p>
+          </a>
+          <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">Bounty: </h4>
+            <p class="list-group-item-text">{{repo_stats.bounty}}</p>
+          </a>
+          <div class="progress progress-striped active" >
+            <div class="progress-bar progress-bar-success" id="div_progressBar" style="width: {{repo_stats.points}}%"></div>
+          </div>
+          <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">Points to Next Level: </h4>
+            <p *ngIf="userRank.goal - repo_stats.points > 0" class="list-group-item-text">{{userRank.goal - repo_stats.points}}</p>
+          </a>
+          </div>
+        </div>
+      <!--//https://stackoverflow.com/questions/43530096/calling-javascript-function-from-typescript-angular-2-->
+      <div id="rep_mile" style="display:none;" class="stat_frame">
+        Current active milestones:
+        <div style="height: 300px; border: 2px solid green">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Gengre</th>
+              <th>Goal</th>
+              <th>Reaward</th>
+              <th>Expiration Date</th>
+              <th>Completed</th>
+            </tr>
+            </thead>
+            <!--*ngFor="let p of rp_Posts"-->
+            <tr *ngFor="let p of mileStonesNotCompleted" >
+              <td>{{p.milestoneName}}</td>
+              <td>{{p.reward}}</td>
+              <td>200</td>
+              <td>{{p.expiry_date}}</td>
+              <td>{{p.usersCompletedMilestone.length}}</td>
+            </tr>
+            <tr *ngIf="">
+              <td>No current milestones</td>
+            </tr>
+          </table>
+        </div>
+        Milestones completed:
+        <div style="height: 300px; border: 2px solid green">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Gengre</th>
+              <th>Goal</th>
+              <th>Reaward</th>
+              <th>Expiration Date</th>
+              <th>Completed</th>
+            </tr>
+            </thead>
+            <!--*ngFor="let p of rp_Posts"-->
+            <tr *ngFor="let p of mileStonesCompleted" >
+              <td>{{p.milestoneName}}</td>
+              <td>{{p.reward}}</td>
+              <td>200</td>
+              <td>{{p.expiry_date}}</td>
+              <!--<td *ngIf="p.usersCompletedMilestone.indexOf(sessionStorage.getItem('sessionID')) >= 0"><span>DONE</span></td>-->
+            </tr>
+            <tr *ngIf="">
+              <td>No current milestones</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="rep_subs" style="display:none;" class="stat_frame">
+        <h2>No current subscriptions</h2>
+      </div>
+      <div id="rep_stats" style="display:none;" class="stat_frame" >
+        <div>
+        <button class="btn btn-info" (click)="manual_refresh()">Refresh</button>
+        <p-chart *ngIf="tbl_format.dataNumOfVotes.length > 0" type="bar" [data]="data"></p-chart>
+        <!--tbl_format: {{tbl_format | json}}-->
+        <!--<br>-->
+        <!--transition_stats:{{transition_stats | json}}-->
+
+        <!--<br>-->
+        <!--dummy_Adaptor: {{dummy_Adaptor | json}}-->
+        </div>
+      </div>
+      <div id="rep_leaderBoards" style="display:none;" class="stat_frame" >
+        <div class="dropdown" style=" margin-right: 60px; position: absolute; right: 50px; top: 0px">
+          <button id="btn_sm_courses" class="btn btn-default dropdown-toggle" style="float: right;  " type="button" data-toggle="dropdown">{{leader_selected_module}}
+            <span class="caret"></span></button>
+          <ul class="dropdown-menu" *ngIf="userObject.length > 0" style="margin-top: 30px">
+            <li class="dropdown-header">Your Modules</li>
+            <li *ngFor="let p of userObject[0].modules" (click)="leader_seleceted_newModule(p)"><a href="#">{{p}}</a></li>
+          </ul>
+        </div>
+        <div class="panel-body gradient-pattern " id="" style="font-size: 12px; height:76%; overflow-y: auto; color: black">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Competitor</th>
+              <th>Points</th>
+              <th>Bounty</th>
+              <th>Total</th>
+            </tr>
+            </thead>
+            <tr *ngFor="let p of tbl_format_lb">
+              <td>{{p.userID}}</td>
+              <td>{{p.points}}</td>
+              <td>{{p.bounty}}</td>
+              <td>{{p.total}}</td>
+            </tr>
+            <tr *ngIf="(tbl_format_lb.length == 0)">
+              <td>No responses to current message</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!--</div>-->
+    </div>
+  </div>
+</p-dialog>
+
+
+<button type="text" id="rep_trigger" (click)="showDialog()" icon="fa-external-link-square" label="Show" style="display:none">Show</button>
